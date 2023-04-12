@@ -30,7 +30,7 @@ jobs:
           cache: maven
 
       - name: Build with Maven # 메이븐 빌드
-        run: mvn -B package --file pom.xml
+        run: mvn -B clean package --file pom.xml
 
       #- name: SonarQube Scan
       #  uses: kitabisa/sonarqube-action@master
