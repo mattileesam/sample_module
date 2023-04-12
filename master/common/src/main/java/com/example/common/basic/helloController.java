@@ -14,6 +14,7 @@ public class helloController {
         String commonName = request.getParameter("commonName");
         String age = request.getParameter("age");
 
+
         return "common name="+commonName+", age="+age;
     }
 
