@@ -6,6 +6,7 @@
         <groupId>com.example</groupId>
         <artifactId>sample_module</artifactId>
         <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../../../sample_module</relativePath>
     </parent>
 
     <artifactId>common</artifactId>
