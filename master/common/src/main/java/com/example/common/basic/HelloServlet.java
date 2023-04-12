@@ -1,4 +1,4 @@
-package com.example.ticket.basic;
+package com.example.common.basic;
 
 
 import javax.servlet.ServletException;

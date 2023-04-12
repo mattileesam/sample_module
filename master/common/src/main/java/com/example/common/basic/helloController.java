@@ -1,4 +1,4 @@
-package com.example.ticket.basic;
+package com.example.common.basic;
 
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
