@@ -6,22 +6,22 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
-@RequestMapping("/ticket")
+@RequestMapping("/common")
 public class helloController {
 
     @GetMapping("/create")
     public String createView(HttpServletRequest request, Model model) {
-        String ticketName = request.getParameter("ticketName");
+        String commonName = request.getParameter("commonName");
         String age = request.getParameter("age");
 
-        return "ticketName="+ticketName+", age="+age;
+        return "common name="+commonName+", age="+age;
     }
 
     @PostMapping("/getUser")
     public String getView(HttpServletRequest request, Model model) {
-        String ticketName = request.getParameter("ticketName");
+        String commonName = request.getParameter("commonName");
         String age = request.getParameter("age");
 
-        return "ticketName="+ticketName+", age="+age;
+        return "commonName="+commonName+", age="+age;
     }
 }

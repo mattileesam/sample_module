@@ -2,8 +2,12 @@ name: Java CI with Maven
 
 on:
   push:
+    paths:
+      - 'master/common/**'
     branches: [ "master" ]
   pull_request:
+    paths:
+      - 'master/common/**'
     branches: [ "master" ]
 
 env:

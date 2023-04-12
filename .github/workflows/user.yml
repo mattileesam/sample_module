@@ -1,0 +1,83 @@
+name: Java CI with Maven
+
+on:
+  push:
+    paths:
+      - 'master/user/**'
+    branches: [ "master" ]
+  pull_request:
+    paths:
+      - 'master/user/**'
+    branches: [ "master" ]
+
+env:
+  MAVEN_OPTS: "-Dspring.profiles.active=dev"
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest #우분투 최신버전 OS환경에서
+
+    steps:
+      - name: Checkout #소스 체크아웃
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 11 # 자바설치
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'liberica'
+          cache: maven
+
+      - name: Build with Maven # 메이븐 빌드
+        run: mvn -B package --file pom.xml
+
+      #- name: SonarQube Scan
+      #  uses: kitabisa/sonarqube-action@master
+      #  with:
+      #    host: https://sonarqube-sandbox.itsm.ncsoft.com/
+      #    login: 12312312312312312312
+      #    projectBaseDir: '/github/workspace'
+
+      - name: Docker meta
+        id: docker_meta
+        uses: docker/metadata-action@v1
+        with:
+          images: crusyad/action
+          tag-semver: dev
+
+      - name: Login to DockerHub # 도커허브 로그인
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push
+        id: build_and_push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
+#
+#      - name: Check out k8s repo
+#        uses: actions/checkout@master
+#        with:
+#          repository: mattileesam/apps
+#          token: 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
+#
+#      - name: git push image tag to k8 repo
+#        env:
+#          GITHUB_REPO: mattileesam/apps
+#          GITHUB_TOKEN: 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
+#        run: |
+#          echo "patch image to ${{ steps.docker_meta.outputs.tags }}@${{ steps.build_and_push.outputs.Digest }}"
+#          sed -i "s#${{ steps.docker_meta.outputs.tags }}\(:[a-zA-Z0-9\.\-]\+\)\?\(@sha256:[a-z0-9]\+\)\?#${{ steps.docker_meta.outputs.tags }}@${{ steps.build_and_push.outputs.Digest }}#" apps.yaml
+#
+#          git config --global user.name "mattileesam"
+#          git add .
+#          git commit -m "sample image push"
+#          git push -f --set-upstream origin main
