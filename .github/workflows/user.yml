@@ -17,6 +17,9 @@ jobs:
   build:
 
     runs-on: ubuntu-latest #우분투 최신버전 OS환경에서
+    defaults:
+      run:
+        working-directory: "./master/user"
 
     steps:
       - name: Checkout #소스 체크아웃
